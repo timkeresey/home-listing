@@ -2,6 +2,8 @@ const express = require('express');
 
 const app = express();
 
+require('dotenv').config();
+
 app.get('/', (req, res) => {
     res.send('xxx');
 });
@@ -13,4 +15,6 @@ app.get('/api/listing', (req, res) => {
     ]);
 })
 
-app.listen(3000, () => console.log('server running on port 3000'));
+const port = process.env.PORT || 3000;
+
+app.listen(3000, () => console.log(`server running on port ${port}`));
