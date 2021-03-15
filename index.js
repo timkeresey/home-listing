@@ -1,6 +1,7 @@
 const express = require('express');
-
 const app = express();
+app.use(express.json());
+
 
 require('dotenv').config();
 
@@ -32,6 +33,22 @@ app.get('/api/listing/:id', (req, res) => {
         res.status(404).send('The home with the given ID cannot be found')
     }
 
+    res.send(home);
+});
+
+app.post('/api/listing', (req, res) => {
+
+    if(!req.body.type || !req.body.description) {
+        return res.status(400).send('Type and Description are required');
+    }
+
+    const home = {
+        id: homes.length + 1,
+        type: req.body.type,
+        description: req.body.description
+    }
+
+    homes.push(home);
     res.send(home);
 });
 
