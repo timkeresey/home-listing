@@ -22,7 +22,7 @@ const checkId = (req, res, msg) => {
     const home = homes.find(home => home.id === parseInt(req.params.id));
 
     if (!home) {
-        res.status(404).send(msg);
+        res.status(404).send('The home with the given ID cannot be found');
     }
 }
 
@@ -35,7 +35,7 @@ app.get('/api/listing', (req, res) => {
 })
 
 app.get('/api/listing/:id', (req, res) => {
-    checkId(req, res, 'The home with the given ID cannot be found');
+    checkId(req, res);
 
     res.send(home);
 })
@@ -57,7 +57,7 @@ app.post('/api/listing', (req, res) => {
 })
 
 app.put('/api/listing/:id', (req, res) => {
-    checkId(req, res, 'The home with the given ID cannot be found');
+    checkId(req, res);
 
     home.type = req.body.type;
     home.description = req.body.description;
@@ -66,7 +66,14 @@ app.put('/api/listing/:id', (req, res) => {
 })
 
 app.delete('/api/listing/:id', (req, res) => {
+    const home = homes.find(home => home.id === parseInt(req.params.id));
+    if (!home) {
+        res.status(404).send('The home with the given ID cannot be found');
+    }
 
+    const index = homes.indexOf(home);
+    homes.splice(index, 1);
+    res.send(home);
 })
 
 const port = process.env.PORT || 3000;
