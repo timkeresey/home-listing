@@ -18,23 +18,27 @@ const homes = [
     }
 ]
 
-app.get('/', (req, res) => {
-    res.send('xxx');
-});
-
-app.get('/api/listing', (req, res) => {
-    res.send(homes)
-});
-
-app.get('/api/listing/:id', (req, res) => {
+const checkId = (req, res, msg) => {
     const home = homes.find(home => home.id === parseInt(req.params.id));
 
     if (!home) {
-        res.status(404).send('The home with the given ID cannot be found');
+        res.status(404).send(msg);
     }
+}
+
+app.get('/', (req, res) => {
+    res.send('xxx');
+})
+
+app.get('/api/listing', (req, res) => {
+    res.send(homes)
+})
+
+app.get('/api/listing/:id', (req, res) => {
+    checkId(req, res, 'The home with the given ID cannot be found');
 
     res.send(home);
-});
+})
 
 app.post('/api/listing', (req, res) => {
 
@@ -50,19 +54,20 @@ app.post('/api/listing', (req, res) => {
 
     homes.push(home);
     res.send(home);
-});
+})
 
 app.put('/api/listing/:id', (req, res) => {
-    const home = homes.find(home => home.id === parseInt(req.params.id));
-    if (!home) {
-        return res.status(404).send('The home with the given ID cannot be found');
-    }
+    checkId(req, res, 'The home with the given ID cannot be found');
 
     home.type = req.body.type;
     home.description = req.body.description;
 
     res.send(home);
-});
+})
+
+app.delete('/api/listing/:id', (req, res) => {
+
+})
 
 const port = process.env.PORT || 3000;
 
