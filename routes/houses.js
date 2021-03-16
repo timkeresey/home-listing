@@ -25,7 +25,7 @@ router.post('/', validate, (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).sen({errors: errors.array()});
+        return res.status(422).send({errors: errors.array()});
     }
 
     const house = new House({
@@ -56,5 +56,16 @@ router.get('/', (req, res) => {
         })
         .catch(err => console.log(err))
 });
+
+// get request for single piece of data from /api/houses
+router.get('/:id', (req, res) => {
+    const houseId = req.params.id;
+
+    House.findById(houseId)
+        .then(house => {
+            res.send(house);
+        })
+        .catch(err => console.log(err))
+})
 
 module.exports = router;
