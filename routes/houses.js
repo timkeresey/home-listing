@@ -4,6 +4,7 @@ const House = require('../models/House');
 
 const router = express.Router();
 
+// express validation
 const validate = [
     check('title')
         .isLength({min: 3, max: 50})
@@ -92,6 +93,17 @@ router.put('/:id', validate, (req, res) => {
         })
         .then(result => {
             res.send(result);
+        })
+        .catch(err => console.log(err))
+});
+
+// delete request to /api/houses
+router.delete('/:id', (req, res) => {
+    const houseId = req.params.id;
+
+    House.findByIdAndRemove(houseId)
+        .then(result => {
+            res.send(result)
         })
         .catch(err => console.log(err))
 })
