@@ -10,4 +10,4 @@ const HouseSchema = new mongoose.Schema({
     yearBuilt: Number,
 })
 
-mongoose.model()
+module.exports = mongoose.model('House', HouseSchema);
