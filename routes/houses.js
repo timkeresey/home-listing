@@ -19,7 +19,7 @@ const validate = [
         .withMessage('Price should be a number')
 ]
 
-// /api/houses
+// posting new data to route /api/houses
 router.post('/', validate, (req, res) => {
 
     const errors = validationResult(req);
@@ -47,5 +47,14 @@ router.post('/', validate, (req, res) => {
         })
         .catch(err => console.log(err))
 })
+
+// get request from route /api/houses 
+router.get('/', (req, res) => {
+    House.find()
+        .then(houses => {
+            res.send(houses)
+        })
+        .catch(err => console.log(err))
+});
 
 module.exports = router;
